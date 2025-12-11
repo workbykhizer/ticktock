@@ -2,13 +2,14 @@
 import { useState } from "react";
 
 export default function AddTaskModal({ open, onClose, onSuccess, selectedDate, timesheetId }) {
-  if (!open) return null;
-
+  // Hooks must be called at top level
   const [project, setProject] = useState("");
   const [typeOfWork, setTypeOfWork] = useState("");
   const [description, setDescription] = useState("");
   const [hours, setHours] = useState(1);
   const [error, setError] = useState("");
+
+  if (!open) return null; // conditional rendering is fine here
 
   const addTask = async () => {
     if (!project || !typeOfWork || !description || !hours) {
@@ -36,7 +37,7 @@ export default function AddTaskModal({ open, onClose, onSuccess, selectedDate, t
         return;
       }
 
-      onSuccess(data.task); // pass new task back to parent
+      onSuccess(data.task);
       onClose();
     } catch (err) {
       setError("Failed to add task. Try again.");
@@ -48,15 +49,13 @@ export default function AddTaskModal({ open, onClose, onSuccess, selectedDate, t
     <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
       <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl p-6 relative">
 
-        {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">Add New Entry</h2>
           <button onClick={onClose} className="text-gray-600 text-2xl">&times;</button>
         </div>
 
-        {/* Form */}
         <div className="space-y-4">
-
+          {/* Project */}
           <div>
             <label className="block font-medium mb-1">Select Project *</label>
             <select
@@ -70,6 +69,7 @@ export default function AddTaskModal({ open, onClose, onSuccess, selectedDate, t
             </select>
           </div>
 
+          {/* Type of Work */}
           <div>
             <label className="block font-medium mb-1">Type of Work *</label>
             <select
@@ -84,6 +84,7 @@ export default function AddTaskModal({ open, onClose, onSuccess, selectedDate, t
             </select>
           </div>
 
+          {/* Description */}
           <div>
             <label className="block font-medium mb-1">Task Description *</label>
             <textarea
@@ -95,6 +96,7 @@ export default function AddTaskModal({ open, onClose, onSuccess, selectedDate, t
             ></textarea>
           </div>
 
+          {/* Hours */}
           <div>
             <label className="block font-medium mb-1">Hours *</label>
             <div className="flex items-center gap-3">
@@ -116,7 +118,6 @@ export default function AddTaskModal({ open, onClose, onSuccess, selectedDate, t
 
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
-          {/* Footer */}
           <div className="flex gap-3 mt-6">
             <button
               onClick={addTask}

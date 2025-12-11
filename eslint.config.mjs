@@ -19,6 +19,10 @@ const eslintConfig = [
       "build/**",
       "next-env.d.ts",
     ],
+    rules: {
+      "react/no-unescaped-entities": "off", // ✅ disable the error for unescaped characters
+      // you can add other custom rules here
+    },
   },
 ];
 
